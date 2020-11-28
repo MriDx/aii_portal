@@ -20,7 +20,7 @@ const Route = use('Route')
 
 Route.get('/', 'AdminController.check')
 
-Route.post('/register', 'AdminController.register').validator('register')
+//Route.post('/register', 'AdminController.register').validator('register')
 Route.post('/login', 'AdminController.login')
 
 Route.get('/logout', 'AdminController.logout')
