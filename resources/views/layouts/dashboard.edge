@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+window.setTimeout(function() {
+    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+        $(this).remove();
+    });
+}, 5000);
+
+});
+
+function myFunction(t) {
+	// Get the snackbar DIV
+	var x = document.getElementById("snackbar");
+
+	x.innerText = t
+
+	// Add the "show" class to DIV
+	x.className = "show";
+
+	// After 3 seconds, remove the show class from DIV
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  };
+		</script>
+
+		@!section('extrajs')
+
+
+		{{ style('style') }}
+
+		@!section('extracss')
+
+		<title>
+			@!section('title')
+		</title>
+	</head>
+
+	<body>
+		<header>
+			{{-- <a href="/" id="logo" > Aii </a>  --}}
+			<a href="/"><img src="/logo.png" alt="logo" /></a>
+
+			<nav>
+				<ul>
+					<li><a href="#">{{ user.name}}</a> </li>
+					<li><a href="/dashboard">Dashboard</a> </li>
+					{{-- <li><a href="/write-to-us">Write to Us</a></li>  --}}
+					<li><a href="/logout">Logout</a>
+				</ul>
+			</nav>
+		</header>
+		<div class="container">
+			@!section('content')
+		</div>
+	</body>
+
+</html>

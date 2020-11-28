@@ -1,0 +1,60 @@
+@layout('layouts.dashboard')
+
+
+@section('content')
+
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+@endif
+
+
+<div class="card">
+	<div class="card-header">
+		Products
+	</div>
+	<div class="card-body">
+
+		<div class="m-1 mb-4 row">
+			<div class="col-md-6">
+				<strong>Name</strong>
+			</div>
+			<div class="col-md-3">
+				<strong>Stock </strong>
+			</div>
+			<div class="col-md-3">
+				Action
+			</div>
+		</div>
+
+		@each(product in products)
+		<div class="m-1 mb-4 row">
+			<div class="col-md-6">
+				<strong>{{product.name}} </strong>
+			</div>
+			<div class="col-md-3">
+				<a href="/add-stock/{{ product.id }}">
+					@if(product.stock == 1)
+					<strong class="text-success font-weight-bold">In stock </strong>
+					@else
+					<strong class="text-danger font-weight-bold">Out of stock </strong>
+					@endif
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="btn btn-secondary ">View</a>
+				<a href="" class="btn-danger btn">Edit</a>
+			</div>
+		</div>
+		@endeach
+
+	</div>
+</div>
+
+
+@endsection

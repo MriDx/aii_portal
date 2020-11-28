@@ -1,0 +1,46 @@
+@layout('layouts.dashboard')
+
+
+@section('content')
+
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+@endif
+
+<div class="card">
+	<div class="card-header">
+		Create Category
+	</div>
+	<div class="card-body">
+		<form action="{{ route('CategoryController.addCategory')}}" method="post" enctype="multipart/form-data">
+			{{ csrfField() }}
+			<div class="form-group mb-4">
+				<label for="name">Category Name</label>
+				<input type="text" name="name" class="form-control" placeholder="eg: Shirt"
+					value="{{ old('name', '')}}">
+				@if(hasErrorFor('name'))
+				<span>
+					{{ getErrorFor('name')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<input type="file" class="form-control" name="image">
+				@if(hasErrorFor('image'))
+				<span>
+					{{ getErrorFor('image')}}
+				</span>
+				@endif
+			</div>
+			<input type="submit" class="btn btn-primary" value="Create">
+		</form>
+	</div>
+</div>
+
+@endsection

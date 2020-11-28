@@ -1,0 +1,121 @@
+@layout('layouts.dashboard')
+
+@section('extrajs')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+        $("#fileUpload").change(function(){
+            {{ route('PrductaddController.addImage') }};
+        });
+    });
+</script>
+@endsection
+
+
+@section('extracss')
+{{ style('aii')}}
+@endsection
+
+@section('content')
+
+<span> {{ error}} </span>
+
+<div class="card mb-4">
+	<div class="card-header">
+		Product
+	</div>
+	<div class="card-body">
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Name - {{ product.name}}</span>
+			<span class="col-md-5">Brand Name - {{ product.brand_name}}</span>
+		</div>
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Category - {{ category.name}}</span>
+			@if(product.stock == 1)
+			<span class="col-md-5">Stock Status - In Stock</span>
+			@else
+			<span class="col-md-5">Stock Status - Out Of Stock</span>
+			@endif
+		</div>
+	</div>
+</div>
+
+
+<div class="card mb-4">
+	<div class="card-header">
+		Stocks
+	</div>
+	@each(stock in stocks)
+	<div class="card-body row justify-content-md-center">
+		<span class="col-md-2">Stock Count - {{ stock.stock}}</span>
+		<span class="col-md-2">Price- {{ stock.price}}</span>
+		<span class="col-md-2">MRP- {{ stock.mrp}}</span>
+		<span class="col-md-2">Discount- {{ stock.discount}}</span>
+		<span class="col-md-2">Size- {{stock.size.name }} ( {{ stock.size.slug }} )</span>
+	</div>
+	@endeach
+</div>
+
+
+<div class="card mb-4">
+	<div class="card-header">Add Stock</div>
+	<div class="card-body">
+		<form action="{{ route('ProductaddController.addStock') }}" method="POST">
+			{{ csrfField() }}
+			<input type="hidden" name="id" value="{{product.id}}">
+			<div class="form-group mb-3">
+				<label for="stock">Size</label>
+				<select class="custom-select" name="size_id">
+					<option selected>Choose...</option>
+					@each(size in sizes)
+					<option value="{{size.id}}">{{size.name}}</option>
+					@endeach
+				</select>
+				@if(hasErrorFor('size_id'))
+				<span>
+					{{ getErrorFor('size_id')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="stock">Stock</label>
+				<input type="number" class="form-control" name="stock" id="stock" placeholder="Stock">
+				@if(hasErrorFor('stock'))
+				<span>
+					{{ getErrorFor('stock')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="mrp">MRP</label>
+				<input type="number" class="form-control" name="mrp" id="mrp" placeholder="Mrp">
+				@if(hasErrorFor('mrp'))
+				<span>
+					{{ getErrorFor('mrp')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="price">Price</label>
+				<input type="number" class="form-control" name="price" id="price" placeholder="Price">
+				@if(hasErrorFor('price'))
+				<span>
+					{{ getErrorFor('price')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="discount">Discount</label>
+				<input type="number" class="form-control" name="discount" id="discount" placeholder="Discount">
+				@if(hasErrorFor('discount'))
+				<span>
+					{{ getErrorFor('discount')}}
+				</span>
+				@endif
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+	</div>
+</div>
+
+@endsection

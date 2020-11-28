@@ -1,0 +1,69 @@
+@layout('layouts.dashboard')
+
+@section('extracss')
+  {{ style('aii')}}
+@endsection
+
+@section('content')
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+  </div>
+@endif
+
+<div class="card mb-4">
+	<div class="card-header">
+		Product Basic Description
+	  </div>
+	<div class="card-body">
+		<form action="" method="POST">
+			{{ csrfField() }}
+			<div class="form-group mb-4">
+				<label for="name">Product Name</label>
+				<input type="text" class="form-control" name="name" id="name" placeholder="Product Name" value="{{ old('name')}}">
+				@if(hasErrorFor('name'))
+					<span>
+						{{ getErrorFor('name')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="brand_name">Brand Name</label>
+				<input type="text" class="form-control" name="brand_name" id="brand_name" placeholder="Brand Name" value="{{ old('brand_name')}}">
+				@if(hasErrorFor('brand_name'))
+					<span>
+						{{ getErrorFor('brand_name')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="color">Color</label>
+				<input type="text" class="form-control" name="color" id="color" placeholder="Color" value="{{old('color')}}">
+				@if(hasErrorFor('color'))
+					<span>
+						{{ getErrorFor('color')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-3">
+				<select class="custom-select" name="category_id">
+				<option selected>Choose...</option>
+				@each(category in categories)
+					<option value="{{category.id}}">{{category.name}}</option>
+				@endeach
+				</select>
+				@if(hasErrorFor('category_id'))
+					<span>
+						{{ getErrorFor('category_id')}}
+					</span>
+				@endif
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+	</div>
+</div>
+@endsection

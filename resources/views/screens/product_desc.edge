@@ -1,0 +1,117 @@
+@layout('layouts.dashboard')
+
+@section('extracss')
+{{ style('aii')}}
+@endsection
+
+@section('content')
+
+<span> {{ error }} </span>
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+@endif
+
+<div class="card mb-4">
+	<div class="card-header">
+		Product
+	</div>
+	<div class="card-body">
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Name - {{ product.name}}</span>
+			<span class="col-md-5">Brand Name - {{ product.brand_name}}</span>
+		</div>
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Category - {{ category.name}}</span>
+			@if(product.stock == 1)
+			<span class="col-md-5">Stock Status - In Stock</span>
+			@else
+			<span class="col-md-5">Stock Status - Out Of Stock</span>
+			@endif
+		</div>
+	</div>
+</div>
+
+<div class="card mb-4">
+	<div class="card-header">
+		Description
+	</div>
+	<div class="card-body">
+		<form action="{{ route('ProductaddController.addDesc') }}" method="post">
+			{{ csrfField() }}
+			<input type="hidden" name="product_id" value="{{product.id}}">
+			<div class="form-group mb-4">
+				<label for="unit">Unit or Pack</label>
+				<input type="text" class="form-control" name="unit" id="unit" placeholder="Unit or Pack">
+				@if(hasErrorFor('unit'))
+				<span>
+					{{ getErrorFor('unit')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="material">Material</label>
+				<input type="text" class="form-control" name="material" id="material" placeholder="Material">
+				@if(hasErrorFor('material'))
+				<span>
+					{{ getErrorFor('material')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="color">Color</label>
+				<input type="text" class="form-control" name="color" id="color" placeholder="Color">
+				@if(hasErrorFor('color'))
+				<span>
+					{{ getErrorFor('color')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="fit">Fit Type</label>
+				<input type="text" class="form-control" name="fit" id="fit" placeholder="Fit Type">
+				@if(hasErrorFor('fit'))
+				<span>
+					{{ getErrorFor('fit')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="sleeve">Sleeve Type</label>
+				<input type="text" class="form-control" name="sleeve" id="sleeve" placeholder="Sleeve Type">
+				@if(hasErrorFor('sleeve'))
+				<span>
+					{{ getErrorFor('sleeve')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="pattern">Pattern Type</label>
+				<input type="text" class="form-control" name="pattern" id="pattern" placeholder="Pattern Type">
+				@if(hasErrorFor('pattern'))
+				<span>
+					{{ getErrorFor('pattern')}}
+				</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="description">Product Description</label>
+				<textarea class="form-control" name="description" id="pattern">
+				</textarea>
+				@if(hasErrorFor('description'))
+				<span>
+					{{ getErrorFor('description')}}
+				</span>
+				@endif
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+	</div>
+</div>
+
+@endsection

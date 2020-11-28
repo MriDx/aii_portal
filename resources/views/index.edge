@@ -1,0 +1,85 @@
+@layout('layouts.main')
+
+@section('title')
+Aii - Admin Portal
+@endsection
+
+@section('content')
+
+<div class="container">
+	<div class="align-items-center">
+
+		@loggedIn
+		<div class="alert alert-success alert-dismissible" role="alert">
+			Logged in
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		@else
+		<div class="alert alert-info alert-dismissible" role="alert">
+			Login failed
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		@endloggedIn
+
+
+		<div class="card">
+			<div class="row no-gutters">
+				<div class="col">
+					<div class="card-body">
+						<div class="brand-wrapper mb-4">
+							<h3>Aii- Admin Login</h3>
+						</div>
+						<form action="{{ route('AdminController.login') }}" method="POST">
+							{{ csrfField() }}
+							<div class="form-group mb-4">
+								<label for="email" class="sr-only">Email address</label>
+								<input type="email" class="form-control" name="email" id="eamail"
+									placeholder="Enter email">
+								<small id="emailHelp" class="form-text text-muted">We'll never share your email with
+									anyone else.</small>
+							</div>
+							<div class="form-group mb-4">
+								<label for="password" class="sr-only">Password</label>
+								<input type="password" class="form-control" id="password" name="password"
+									placeholder="Password">
+							</div>
+							{{-- <button type="submit" class="btn btn-primary mb-4">Submit</button>  --}}
+							<input name="login" id="login" class="btn btn-block login-btn mb-4 btn-primary"
+								type="submit" value="Login">
+						</form>
+
+						<form action="{{ route('AdminController.register') }}" method="POST">
+							{{csrfField()}}
+							<input type="email" name="email" placeholder="Email">
+							@if(hasErrorFor('email'))
+							<span>
+								{{ getErrorFor('email')}}
+							</span>
+							@endif
+							<input type="password" name="password" placeholder="Password">
+							@if(hasErrorFor('password'))
+							<span>
+								{{ getErrorFor('password')}}
+							</span>
+							@endif
+							<input type="text" name="name" placeholder="Full Name">
+							@if(hasErrorFor('name'))
+							<span>
+								{{ getErrorFor('name')}}
+							</span>
+							@endif
+							<input class="btn  btn-primary" type="submit" value="Register">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@endsection

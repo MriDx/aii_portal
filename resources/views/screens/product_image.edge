@@ -1,0 +1,75 @@
+@layout('layouts.dashboard')
+
+@section('extrajs')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+        $("#fileUpload").change(function(){
+            {{ route('PrductaddController.addImage') }};
+        });
+    });
+</script>
+@endsection
+
+
+@section('extracss')
+{{ style('aii')}}
+@endsection
+
+@section('content')
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+@endif
+
+<div class="card mb-4">
+	<div class="card-header">
+		Product
+	</div>
+	<div class="card-body">
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Name - {{ product.name}}</span>
+			<span class="col-md-5">Brand Name - {{ product.brand_name}}</span>
+		</div>
+		<div class="row justify-content-md-center">
+			<span class="col-md-5">Category - {{ category.name}}</span>
+			@if(product.stock == 1)
+			<span class="col-md-5">Stock Status - In Stock</span>
+			@else
+			<span class="col-md-5">Stock Status - Out Of Stock</span>
+			@endif
+		</div>
+	</div>
+</div>
+
+<div class="card mb-4">
+	<div class="card-header">Add Images</div>
+	<div class="card-body">
+		<div class="container">
+			<div class="row">
+				@each(image in images)
+				<img src="/{{ image.url }}" class="rounded img-responsive img-thumbnail col-md-4">
+				@endeach
+			</div>
+		</div>
+		<form method="POST" action="{{ route('ProductaddController.addImage') }}" enctype="multipart/form-data">
+			{{csrfField()}}
+			<div class="custom-file">
+				<input type="file" id="fileUpload" name="image">
+			</div>
+			<div>
+				<input type="hidden" name="id" value="{{ product.id }}" class="">
+			</div>
+			<button type="submit" class="btn btn-primary mt-5 md-4"> Add </button>
+			<button type="button" class="btn bt-block btn-primary mt-5 ml-5 md-4"> Done </button>
+			<a type="button" class="btn bt-block btn-primary text-white mt-5 ml-5 md-4"> Add Stock
+			</a>
+		</form>
+	</div>
+</div>
+@endsection

@@ -1,0 +1,207 @@
+@layout('layouts.dashboard')
+
+@section('extracss')
+  {{ style('aii')}}
+@endsection
+
+@section('content')
+
+@if(status)
+<div class="alert alert-{{ status }} alert-dismissible" role="alert">
+	{{message}}
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+  </div>
+@endif
+
+	<div class="card mb-4">
+		<div class="card-header">
+			Product Basic Description
+		  </div>
+		<div class="card-body">
+			<form action="" method="POST">
+				{{ csrfField() }}
+				<div class="form-group mb-4">
+					<label for="name">Product Name</label>
+					<input type="text" class="form-control" name="name" id="name" placeholder="Product Name" value="{{ old('name')}}">
+					@if(hasErrorFor('name'))
+						<span>
+							{{ getErrorFor('name')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="brand_name">Brand Name</label>
+					<input type="text" class="form-control" name="brand_name" id="brand_name" placeholder="Brand Name" value="{{ old('brand_name')}}">
+					@if(hasErrorFor('brand_name'))
+						<span>
+							{{ getErrorFor('brand_name')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="color">Color</label>
+					<input type="text" class="form-control" name="color" id="color" placeholder="Color" value="{{old('color')}}">
+					@if(hasErrorFor('color'))
+						<span>
+							{{ getErrorFor('color')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-3">
+					<select class="custom-select" name="category_id">
+					<option selected>Choose...</option>
+					@each(category in categories)
+						<option value="{{category.id}}">{{category.name}}</option>
+					@endeach
+					</select>
+					@if(hasErrorFor('category_id'))
+						<span>
+							{{ getErrorFor('category_id')}}
+						</span>
+					@endif
+				</div>
+				<button type="submit" class="btn btn-primary">Save</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			Description
+		</div>
+		<div class="card-body">
+			<form action="" method="post">
+				<div class="form-group mb-4">
+					<label for="unit">Unit or Pack</label>
+					<input type="text" class="form-control" name="unit" id="unit" placeholder="Unit or Pack">
+					@if(hasErrorFor('unit'))
+						<span>
+							{{ getErrorFor('unit')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="material">Material</label>
+					<input type="text" class="form-control" name="material" id="material" placeholder="Material">
+					@if(hasErrorFor('material'))
+						<span>
+							{{ getErrorFor('material')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="color">Color</label>
+					<input type="text" class="form-control" name="color" id="color" placeholder="Color">
+					@if(hasErrorFor('color'))
+						<span>
+							{{ getErrorFor('color')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="fit">Fit Type</label>
+					<input type="text" class="form-control" name="fit" id="fit" placeholder="Fit Type">
+					@if(hasErrorFor('fit'))
+						<span>
+							{{ getErrorFor('fit')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="sleeve">Sleeve Type</label>
+					<input type="text" class="form-control" name="sleeve" id="sleeve" placeholder="Sleeve Type">
+					@if(hasErrorFor('sleeve'))
+						<span>
+							{{ getErrorFor('sleeve')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="pattern">Pattern Type</label>
+					<input type="text" class="form-control" name="pattern" id="pattern" placeholder="Pattern Type">
+					@if(hasErrorFor('pattern'))
+						<span>
+							{{ getErrorFor('pattern')}}
+						</span>
+					@endif
+				</div>
+				<div class="form-group mb-4">
+					<label for="description">Product Description</label>
+					<textarea class="form-control" name="pattern" id="pattern" >
+					</textarea>
+					@if(hasErrorFor('description'))
+						<span>
+							{{ getErrorFor('description')}}
+						</span>
+					@endif
+				</div>
+				<button type="button" class="btn btn-primary" >Save</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="card mb-4" >
+		<div class="card-header">Add Images</div>
+		<div class="card-body">
+			<div class="container">
+				<div class="row">
+					@each(image in images)
+					<img src="http://aiishop.in/product/{{ image.image }}" class="rounded img-responsive img-thumbnail col-md-4">
+					@endeach
+			</div>
+			</div>
+			<div class="custom-file">
+				<input type="file" class="custom-file-input" id="inputGroupFile01" name="image">
+				<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+			  </div>
+		</div>
+	</div>
+
+	<div class="card mb-4" >
+		<div class="card-header">Add Stock</div>
+		<div class="card-body">
+			<div class="form-group mb-4">
+				<label for="stock">Pattern Type</label>
+				<input type="number" class="form-control" name="stock" id="stock" placeholder="Stock">
+				@if(hasErrorFor('stock'))
+					<span>
+						{{ getErrorFor('stock')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="mrp">MRP</label>
+				<input type="number" class="form-control" name="mrp" id="mrp" placeholder="Mrp">
+				@if(hasErrorFor('mrp'))
+					<span>
+						{{ getErrorFor('mrp')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="price">Price</label>
+				<input type="number" class="form-control" name="price" id="price" placeholder="Price">
+				@if(hasErrorFor('price'))
+					<span>
+						{{ getErrorFor('price')}}
+					</span>
+				@endif
+			</div>
+			<div class="form-group mb-4">
+				<label for="discount">Discount</label>
+				<input type="number" class="form-control" name="discount" id="discount" placeholder="Discount">
+				@if(hasErrorFor('discount'))
+					<span>
+						{{ getErrorFor('discount')}}
+					</span>
+				@endif
+			</div>
+			<button type="button" class="btn btn-primary" >Save</button>
+		</div>
+	</div>
+
+	<div id="snackbar">Some text some message..</div>
+
+@endsection

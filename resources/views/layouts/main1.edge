@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  {{ style('style') }}
+
+  @!section('extracss')
+
+  <title>
+	  @!section('title')
+  </title>
+</head>
+<body >
+	<header>
+		{{--  <a href="/" id="logo" > Aii </a>  --}}
+		<a href="/" ><img src="logo.png" alt="logo" /></a>
+
+		<nav>
+			<ul>
+				<li><a href="/write-to-us">Write to Us</a></li>
+				<li><a href="/logout">Logout</a>
+			</ul>
+		</nav>
+	</header>
+	<div class="container">
+		@!section('content')
+	</div>
+</body>
+</html>
+
