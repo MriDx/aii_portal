@@ -93,10 +93,12 @@ class ProductaddController {
 			let user = await auth.getUser()
 			let product = await Product.findByOrFail('id', id)
 			let images = await product.image().fetch()
+			let category = await Category.findBy('id', product.category_id)
 			return view.render('screens.product_image', {
 				images: images.toJSON(),
 				user: user.toJSON(),
-				product: product.toJSON()
+				product: product.toJSON(),
+				category: category.toJSON()
 			})
 		} catch (error) {
 			return response.redirect('/')

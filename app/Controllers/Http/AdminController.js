@@ -73,9 +73,11 @@ class AdminController {
 			//await auth.check()
 			let user = await auth.getUser()
 			let product = await Product.findByOrFail('id', id)
+			let category = await Category.findBy('id', product.category_id)
 			return view.render('screens.product_desc', {
 				user: user.toJSON(),
-				product: product.toJSON()
+				product: product.toJSON(),
+				category: category.toJSON()
 			})
 			return response.redirect('/dashboard')
 		} catch (error) {
