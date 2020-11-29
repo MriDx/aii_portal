@@ -46,6 +46,10 @@ class Product extends Model {
 		return this.hasOne('App/Models/Tag')
 	}
 
+	homeproduct() {
+		return this.belongsTo('App/Models/HomeProduct')
+	}
+
 
 
 }

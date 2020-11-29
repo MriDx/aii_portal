@@ -5,6 +5,9 @@ const Product = use('App/Models/Product')
 const Image = use('App/Models/Image')
 const Stock = use('App/Models/Stock')
 const Size = use('App/Models/Size')
+const HomeProduct = use('App/Models/HomeProduct')
+
+const Database = use('Database')
 
 const Helpers = use('Helpers')
 const Drive = use('Drive')
@@ -191,9 +194,67 @@ class ProductaddController {
 				status: 'failed',
 				error
 			})
-			}
+		}
+	}
 
+	async checkHome({ auth, response, view }) {
+		try {
+			let user = await auth.getUser()
+			//let products = await Product.all()
+			let products = await Database.raw('Select products.id, products.name, products.brand_name, products.stock FROM `products` LEFT JOIN `home_products` ON products.id = home_products.product_id WHERE home_products.product_id IS NULL;')
+			Database.close()
+			//console.log(products)
+			//return response.redirect('/')
+			return view.render('screens.add-to-home', {
+				user: user.toJSON(),
+				products: products[0]
+			})
+		} catch (error) {
+			return view.render('screens.add-to-home', {
+				error: error
+			})
+			return response.redirect('/')
+		}
+	}
 
+	async addHome({params: {product_id}, auth, view, response , session}) {
+		try {
+			let user = await auth.getUser()
+			let h = await HomeProduct.create({ product_id: product_id })
+			session.flash({ message: 'Product added to Home', status: 'success'})
+        	return response.redirect('/add-to-home')
+		} catch (error) {
+			session.flash({ message: error.message, error: error, status: 'danger'})
+        	return response.redirect('back')
+		}
+	}
+
+	async home({ auth, view, response, session }) {
+		try {
+			let user = await auth.getUser()
+			let products = await HomeProduct.query()
+				.with('product')
+				.fetch()
+
+				/* let products = await HomeProduct.query()
+				.with('product', b => {
+					b.where('stock', '1')
+					.with('image', function(builder) {
+						builder.select('images.id', 'images.product_id', 'images.url')
+					})
+					.with('stock', function(builder) {
+						builder.with('size')
+					})
+					.with('category')
+				})
+				.orderBy('id', 'desc')
+				.limit(20)
+				.fetch() */
+			return view.render('screens.home-products', {user: user.toJSON(), products: products.toJSON()})
+		} catch (error) {
+			session.flash({ message: error.message, error: error, status: 'danger'})
+        	return response.redirect('back')
+		}
 	}
 
 

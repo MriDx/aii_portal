@@ -7,6 +7,7 @@ const Category = use('App/Models/Category')
 const Image = use('App/Models/Image')
 const Stock = use('App/Models/Stock')
 const Size = use('App/Models/Size')
+const HomeProduct = use('App/Models/HomeProduct')
 
 class AdminController {
 
@@ -52,13 +53,15 @@ class AdminController {
 			let products = await Product.query().getCount()
 			let categories = await Category.query().getCount()
 			let sizes = await Size.query().getCount()
+			let home = await HomeProduct.query().getCount()
 			return view.render('screens.dashboard', {
-					status: 'success',
-					message: 'auth success',
-					user: user.toJSON(),
-					products: products,
-					categories: categories,
-					sizes: sizes
+				status: 'success',
+				message: 'auth success',
+				user: user.toJSON(),
+				products: products,
+				categories: categories,
+				sizes: sizes,
+				home: home
 				}
 			)
 			return response.redirect('/dashboard')

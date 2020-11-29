@@ -51,3 +51,9 @@ Route.post('/add-size', 'SizeController.addSize').validator('createSize')
 
 Route.get('/products', 'ProductaddController.all')
 
+//Route.on('/add-to-home').render('screens.add-to-home')
+Route.get('/add-to-home', 'ProductaddController.checkHome')
+Route.get('/add-to-home/:product_id', 'ProductaddController.addHome')
+
+
+Route.get('/home-products', 'ProductaddController.home')
