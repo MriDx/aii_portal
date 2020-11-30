@@ -36,7 +36,7 @@ Route.get('/product-description/:id', 'AdminController.checkOnDescAdd')
 Route.post('/product-description', 'ProductaddController.addDesc')
 
 Route.get('/product-image/:id', 'ProductaddController.productImage')
-Route.post('product-image', 'ProductaddController.addImage')
+//Route.post('product-image', 'ProductaddController.addImage')
 
 Route.get('/add-stock/:id', 'ProductaddController.checkStock')
 Route.post('add-stock', 'ProductaddController.addStock')

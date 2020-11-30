@@ -93,6 +93,7 @@ class ProductaddController {
 
 	async productImage({ request, params: { id }, auth, view, response }) {
 		try {
+			//await auth.check()
 			let user = await auth.getUser()
 			let product = await Product.findByOrFail('id', id)
 			let images = await product.image().fetch()
@@ -104,6 +105,9 @@ class ProductaddController {
 				category: category.toJSON()
 			})
 		} catch (error) {
+			return view.render('screens.product_image', {
+				error: error
+			})
 			return response.redirect('/')
 		}
 	}

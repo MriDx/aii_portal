@@ -3,6 +3,30 @@
 @section('extracss')
 @endsection
 
+@section('extrajs')
+
+<script>
+	$(document).ready(function(){
+	  $("#ajax-btn").click(function(){
+		$.ajax({
+			url: "http://127.0.0.1:3333/admin/api/v1/products/1",
+			headers: { 'Access-Control-Allow-Origin': '*'},
+			type: "GET",
+			success: function(result){
+				//console.log(result);
+				  //$("#div1").html(result);
+				  document.location.reload(true);
+			},
+			error: function(xhr, status, error) {
+				$("#div1").html(xhr.status +':'+ xhr.statusText+':'+xhr.responseText);
+			}
+		});
+	  });
+	});
+</script>
+
+@endsection
+
 @section('content')
 
 @if(flashMessage('message'))
@@ -23,6 +47,10 @@
 				<p class="card-text"> {{ products }} </p>
 				<a href="/add-new-product" class="btn btn-primary">Add New Product</a>
 				<a href="/products" class="btn btn-primary">View All</a>
+				<button type="button" class="btn btn-primary" id="ajax-btn">Ajax Call</button>
+				<div id="div1">
+					<h2></h2>
+				</div>
 			</div>
 		</div>
 	</div>

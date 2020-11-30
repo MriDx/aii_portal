@@ -3,11 +3,39 @@
 @section('extrajs')
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-	$(document).ready(function(){
+	/* $(document).ready(function(){
         $("#fileUpload").change(function(){
             {{ route('PrductaddController.addImage') }};
         });
-    });
+    }); */
+</script>
+<script>
+	$(document).ready(function(){
+	$( '#img-upload' ).submit( function( e ) {
+    $.ajax( {
+      url: 'http://aiishop.in/admin/api/v1/product/addImage',
+      type: 'POST',
+      data: new FormData( this ),
+      processData: false,
+	  contentType: false,
+	  success: function(result) {
+		  //console.log(result);
+		  //$("#div1").html(result);
+		  //document.location.reload(true);
+		  console.log(result.img.url);
+		  var test = document.getElementById('my-images');
+		  test.innerHTML += "<img src='http://aiishop.in/content/" +result.img.url + "' class='rounded img-responsive img-thumbnail col-md-4'>";
+		  alert('Image uploaded' + result.img.url);
+	  },
+	  error: function(xhr, status, error) {
+			//$("#div1").html(xhr.status +':'+ xhr.statusText+':'+xhr.responseText);
+			//alert(xhr.status +':'+ xhr.statusText+':'+xhr.responseText);
+			alert('Failed to upload ');
+		}
+    } );
+    e.preventDefault();
+  } );
+});
 </script>
 @endsection
 
@@ -26,6 +54,8 @@
 	</button>
 </div>
 @endif
+
+<span> {{ error }} </span>
 
 <div class="card mb-4">
 	<div class="card-header">
@@ -51,25 +81,31 @@
 	<div class="card-header">Add Images</div>
 	<div class="card-body">
 		<div class="container">
-			<div class="row">
+			<div class="row" id="my-images">
 				@each(image in images)
-				<img src="/{{ image.url }}" class="rounded img-responsive img-thumbnail col-md-4">
+				<img src="http://aiishop.in/content/{{ image.url }}"
+					class="rounded img-responsive img-thumbnail col-md-4">
 				@endeach
 			</div>
 		</div>
-		<form method="POST" action="{{ route('ProductaddController.addImage') }}" enctype="multipart/form-data">
-			{{csrfField()}}
+		<form method="POST" id="img-upload" action="{{ route('ProductaddController.addImage') }}"
+			enctype="multipart/form-data">
+			<!--<form id="img-upload">-->
+			{{ csrfField() }}
 			<div class="custom-file">
 				<input type="file" id="fileUpload" name="image">
 			</div>
 			<div>
-				<input type="hidden" name="id" value="{{ product.id }}" class="">
+				<input type="hidden" name="product_id" value="{{ product.id }}" class="">
 			</div>
 			<button type="submit" class="btn btn-primary mt-5 md-4"> Add </button>
+
 			<a href="/add-stock/{{product.id}}" type="button"
-				class="btn bt-block btn-primary text-white mt-5 ml-5 md-4"> Add Stock
+				class="btn bt-block btn-primary text-white mt-5 ml-5 md-4">
+				Add Stock
 			</a>
 		</form>
+
 	</div>
 </div>
 @endsection
