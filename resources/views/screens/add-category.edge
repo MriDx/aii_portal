@@ -1,6 +1,41 @@
 @layout('layouts.dashboard')
 
 
+
+@section('extrajs')
+<script>
+	$(document).ready(function(){
+	$( '#img-upload' ).submit( function( e ) {
+    $.ajax( {
+      url: 'http://aiishop.in/admin/api/v1/createCategory',
+      type: 'POST',
+      data: new FormData( this ),
+      processData: false,
+	  contentType: false,
+	  success: function(result) {
+		  //console.log(result);
+		  //$("#div1").html(result);
+		  //document.location.reload(true);
+		  console.log(result.category.image);
+		  //var test = document.getElementById('my-images');
+		  //test.innerHTML += "<img src='http://aiishop.in/content/" +result.img.url + "' class='rounded img-responsive img-thumbnail col-md-4'>";
+		  alert('Image uploaded' + result.message);
+		  document.getElementById('img-upload').reset()
+	  },
+	  error: function(xhr, status, error) {
+			//$("#div1").html(xhr.status +':'+ xhr.statusText+':'+xhr.responseText);
+			//alert(xhr.status +':'+ xhr.statusText+':'+xhr.responseText);
+			console.log(xhr.responseJSON.message)
+			alert(xhr.responseJSON.message);
+		}
+    } );
+    e.preventDefault();
+  } );
+});
+</script>
+@endsection
+
+
 @section('content')
 
 
@@ -18,11 +53,12 @@
 		Create Category
 	</div>
 	<div class="card-body">
-		<form action="{{ route('CategoryController.addCategory')}}" method="post" enctype="multipart/form-data">
+		<form id="img-upload" action="{{ route('CategoryController.addCategory')}}" method="post"
+			enctype="multipart/form-data">
 			{{ csrfField() }}
 			<div class="form-group mb-4">
 				<label for="name">Category Name</label>
-				<input type="text" name="name" class="form-control" placeholder="eg: Shirt"
+				<input type="text" name="name" required class="form-control" placeholder="eg: Shirt"
 					value="{{ old('name', '')}}">
 				@if(hasErrorFor('name'))
 				<span>
@@ -31,7 +67,7 @@
 				@endif
 			</div>
 			<div class="form-group mb-4">
-				<input type="file" class="form-control" name="image">
+				<input type="file" class="form-control" name="image" required>
 				@if(hasErrorFor('image'))
 				<span>
 					{{ getErrorFor('image')}}
