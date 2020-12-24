@@ -16,6 +16,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+//Route.post('test', 'AdminController.test')
+
 //Route.on('/').render('index')
 
 Route.get('/', 'AdminController.check')

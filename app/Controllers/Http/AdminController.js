@@ -98,6 +98,29 @@ class AdminController {
 		} */
 	}
 
+	async test({ request, auth, response }) {
+		let { email, password } = request.all()
+		try {
+			await auth.authenticator('jwt').attempt(email, password)
+			let user = await WebAdmin.findBy("email", email)
+			let token = await auth.authenticator('jwt').generate(user)
+			return token
+		} catch (error) {
+			return response.status(403).json({
+				status: 'failed',
+				error
+			})
+		}
+	}
+
+	async t({ request, auth, response }) {
+		try {
+			return await auth.getUser()
+		} catch (error) {
+			return error
+		}
+	}
+
 }
 
 module.exports = AdminController

@@ -24,7 +24,7 @@
 		  //document.location.reload(true);
 		  console.log(result.img.url);
 		  var test = document.getElementById('my-images');
-		  test.innerHTML += "<img src='http://aiishop.in/content/" +result.img.url + "' class='rounded img-responsive img-thumbnail col-md-4'>";
+		  test.innerHTML += "<img src='http://aiishop.in/" +result.img.url + "' class='rounded img-responsive img-thumbnail col-md-4'>";
 		  alert('Image uploaded' + result.img.url);
 	  },
 	  error: function(xhr, status, error) {
